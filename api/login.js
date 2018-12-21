@@ -2,8 +2,7 @@ const login = require('../utils/login');
 const session = require('../utils/session');
 const result = require('../utils/result');
 
-const success = result.success;
-const error = result.error;
+const { success, error } = result;
 
 // 只登录，不涉及用户信息
 async function handle(ctx) {

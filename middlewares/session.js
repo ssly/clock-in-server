@@ -1,5 +1,7 @@
 /**
  * 此中间件主要处理接口的 session 权限问题
+ * session 格式如下
+ * { id: ObjectID, openid: string }
  */
 
 const session = require('../utils/session');

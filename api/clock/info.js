@@ -1,6 +1,6 @@
 const result = require('../../utils/result');
 
-const success = result.success;
+const { success } = result;
 
 async function handle(ctx) {
   const userId = String(ctx.session.id);

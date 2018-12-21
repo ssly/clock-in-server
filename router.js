@@ -27,7 +27,7 @@ function setApi(rootPath, ...pathArgs) {
       }
 
       // 设置接口逻辑
-      const pattern = /(\w+).js/;
+      const pattern = /([\w-]+).js/;
       if (pattern.test(file)) {
         const apiName = file.match(pattern)[1];
         const uri = path.join(apiUri, ...pathArgs, apiName);
