@@ -19,9 +19,6 @@ async function handle(ctx) {
   }
 
   const updateItem = {
-    clockCount: 0,
-    continuousCount: 0,
-    maxContinuousCount: 0,
     validStartTime: startTime || '05:30',
     validEndTime: endTime || '06:30',
   };
