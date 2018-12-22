@@ -24,20 +24,10 @@ async function handle(ctx) {
   const userCollection = ctx.db.collection('clock_user');
   const userInfo = await userCollection.findOne({ _id: id });
   const { validStartTime, validEndTime } = userInfo;
-  if (!validStartTime || !validEndTime) {
-    ctx.body = error('请设置有效的打卡范围', '404');
-    return; 
-  }
 
   const collection = ctx.db.collection(`clock_data_${String(id)}`);
   const clockTime = new Date();
   const currentTime = getCurrentTime(clockTime);
-
-  // 判断打卡时间是否有效
-  if (!isValidTime(currentTime, [validStartTime, validEndTime])) {
-    ctx.body = error('不在打卡有效时间内');
-    return;
-  }
 
   const todayOptions = {
     year: clockTime.getFullYear(),
@@ -45,9 +35,20 @@ async function handle(ctx) {
     date: clockTime.getDate(),
   };
   const todayQuery = await collection.findOne(todayOptions);
-  // 当天已经打卡
+  // 当天已经打卡，则直接返回打卡记录
   if (todayQuery) {
     ctx.body = success({ id: todayQuery._id, clockTimestamp: todayQuery.clockTimestamp });
+    return;
+  }
+
+  if (!validStartTime || !validEndTime) {
+    ctx.body = error('请设置有效的打卡范围', '404');
+    return; 
+  }
+
+  // 判断打卡时间是否有效
+  if (!isValidTime(currentTime, [validStartTime, validEndTime])) {
+    ctx.body = error('不在打卡有效时间内');
     return;
   }
 
