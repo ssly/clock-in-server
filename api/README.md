@@ -25,6 +25,6 @@
   ```json
   {
     "code": "1",
-    "message": "失败信息"
+    "message": "失败信息"
   }
   ```
