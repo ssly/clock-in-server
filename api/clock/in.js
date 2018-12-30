@@ -3,22 +3,6 @@ const { getCurrentTime } = require('../../utils/time');
 
 const { success, error } = result;
 
-/**
- * 判断时间是否某一个区间
- * @param {string} time 需要判断的时间
- * @param {array} timeRange 区间
- * @returns {boolean}
- */
-function isValidTime(time, timeRange) {
-  if (!Array.isArray(timeRange) || timeRange.length !== 2) {
-    return false;
-  }
-  if (time > timeRange[0] && time < timeRange[1]) {
-    return true;
-  }
-  return false;
-}
-
 async function handle(ctx) {
   const { id } = ctx.session;
   const userCollection = ctx.db.collection('clock_user');
@@ -61,6 +45,22 @@ async function handle(ctx) {
   const res = await collection.insertOne(insertItem);
   const { _id, clockTimestamp } = res.ops[0];
   ctx.body = success({ id: _id, clockTimestamp });
+}
+
+/**
+ * 判断时间是否某一个区间
+ * @param {string} time 需要判断的时间
+ * @param {array} timeRange 区间
+ * @returns {boolean}
+ */
+function isValidTime(time, timeRange) {
+  if (!Array.isArray(timeRange) || timeRange.length !== 2) {
+    return false;
+  }
+  if (time > timeRange[0] && time < timeRange[1]) {
+    return true;
+  }
+  return false;
 }
 
 module.exports = { method: 'post', handle }

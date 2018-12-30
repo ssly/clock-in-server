@@ -19,7 +19,7 @@ async function handle(ctx) {
   
   if (userData === null) {
     const res = await collection.insertOne({ openid });
-    userId = Object.keys(res.insertedIds).map(item => res.insertedIds[item]);
+    userId = res.insertedId;
   } else {
     userId = userData._id;
   }
