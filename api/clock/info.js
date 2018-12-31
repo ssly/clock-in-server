@@ -13,8 +13,8 @@ async function handle(ctx) {
   const { last, max } = continuousItem;
   ctx.body = success({
     count,
-    continuousCount: last,
-    maxContinuousCount: max,
+    continuousCount: count > 0 ? last : 0,
+    maxContinuousCount: count > 0 ? max : 0,
   });
 }
 

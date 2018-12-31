@@ -16,16 +16,22 @@ async function handle(ctx) {
   let userId = '';
   const collection = ctx.db.collection('clock_user');
   const userData = await collection.findOne({ openid });
-  
+  const responseBody = {};
   if (userData === null) {
-    const res = await collection.insertOne({ openid });
+    const createTimestamp = new Date().getTime();
+    const res = await collection.insertOne({ openid, createTimestamp });
     userId = res.insertedId;
   } else {
+    const { nickName, avatarUrl, gender } = userData;
     userId = userData._id;
+    // 如果用户授权，则返回授权信息
+    if (nickName) {
+      responseBody.userInfo = { nickName, avatarUrl, gender };
+    }
   }
 
-  const token = session.setSession({ id: userId, openid });
-  ctx.body = success({ token });
+  responseBody.token = session.setSession({ id: userId, openid });
+  ctx.body = success(responseBody);
 }
 
 module.exports = { method: 'post', handle }

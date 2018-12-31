@@ -21,7 +21,8 @@ async function handle(ctx) {
   const todayQuery = await collection.findOne(todayOptions);
   // 当天已经打卡，则直接返回打卡记录
   if (todayQuery) {
-    ctx.body = success({ id: todayQuery._id, clockTimestamp: todayQuery.clockTimestamp });
+    const { _id: id, clockTimestamp } = todayQuery;
+    ctx.body = success({ id, clockTimestamp });
     return;
   }
 

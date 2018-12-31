@@ -34,7 +34,9 @@ function setApi(rootPath, ...pathArgs) {
         const apiItem = require(filePath);
 
         // 设置接口
-        router[apiItem.method](uri, apiItem.handle);
+        if (typeof apiItem.handle === 'function') {
+          router[apiItem.method](uri, apiItem.handle);
+        }
       }
     });
   })
